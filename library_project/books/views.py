@@ -25,7 +25,25 @@ def book_list(request):
 
 
 class BookDetailView(APIView):
+
+    # Retrieve a single book (GET)
     def get(self, request, pk):
         book = get_object_or_404(Book, pk=pk)
         serializer = BookSerializer(book)
         return Response(serializer.data)
+
+    # Update an existing book (PUT)
+    def put(self, request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        serializer = BookSerializer(book, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)  # განახლებული წიგნი
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Delete a book (DELETE)
+    def delete(self, request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        book.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
