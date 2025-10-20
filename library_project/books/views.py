@@ -23,7 +23,6 @@ def book_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class BookDetailView(APIView):
 
     # Retrieve a single book (GET)
